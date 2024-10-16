@@ -1,11 +1,45 @@
-from flask import Flask
+from flask import (
+    Flask,
+    request
+)
+
+from app.database import task  # Import the task module
+
+# REST architectural design pattern
+
 app = Flask(__name__)
-@app.get("/aboutme")
-def get_home():
-        me = {
-                "first_name":"Emiliano",
-                "last_name":"Magana",
-                "hobbies":"REDACTED",
-                "is_online": True
-        }
-        return me
+
+@app.get("/tasks")
+def get_all_tasks():
+    tasks = task.scan()  
+    out = {
+        "tasks": tasks,  
+        "ok": True
+    }
+    return out
+
+@app.get("/task/<int:pk>/")
+def get_task_by_id(pk):
+    single_task = task.select_by_id(pk)
+    out = {
+        "task": single_task,
+        "ok": True
+    }
+    return out 
+
+@app.post("/tasks")
+def create_task():
+    task_data = request.json
+    task.insert(task_data)
+    return "", 204
+
+@app.put("/tasks/<int:pk>/")
+def update_task_by_id(pk):
+    task_data = request.json
+    task.update_by_id(task_data, pk)
+    return "", 204
+
+@app.delete("/task/<int:pk>/")
+def delete_task_by_id(pk):
+    task.delete_by_id(pk)
+    return "", 204
