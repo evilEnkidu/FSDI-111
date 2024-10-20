@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}new task{% endblock title %}
+
+{% block content %}
+<h1>Introduce your TASK!</h1>
+<form action="create_task()">
+        <p>Task name</p>
+        <input type="text">
+        <p>Task description</p>
+        <input type="text">
+<input type="text">
+</form>
+{% endblock content %}

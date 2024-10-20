@@ -3,7 +3,7 @@ from flask import (
     request
 )
 
-from app.database import task  # Import the task module
+from app.database import task  # Import the task.py module
 
 # REST architectural design pattern
 
@@ -18,7 +18,7 @@ def get_all_tasks():
     }
     return out
 
-@app.get("/task/<int:pk>/")
+@app.get("/tasks/<int:pk>/")
 def get_task_by_id(pk):
     single_task = task.select_by_id(pk)
     out = {
@@ -39,7 +39,7 @@ def update_task_by_id(pk):
     task.update_by_id(task_data, pk)
     return "", 204
 
-@app.delete("/task/<int:pk>/")
+@app.delete("/tasks/<int:pk>/")
 def delete_task_by_id(pk):
     task.delete_by_id(pk)
     return "", 204
